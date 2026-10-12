@@ -1,0 +1,769 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Academic Report</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            padding: 30px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        /* Main Heading */
+        .main-title {
+            text-align: center;
+            color: #4b5563;
+            margin-bottom: 25px;
+            font-size: 32px;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            color: #4f46e5;
+            margin-bottom: 20px;
+        }
+
+        /* Student details */
+        .student-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #6366f1;
+        }
+
+        /* Subject rows */
+        .subject-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .subject-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .marks-heading {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 10px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* Attendance */
+        .attendance-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Buttons */
+        .button-container {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #4f46e5;
+        }
+
+        /* Report */
+        #reportSection {
+            display: none;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .report-header p {
+            font-size: 16px;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 13px;
+            text-align: center;
+        }
+
+        th {
+            background: #f1f3f9;
+            color: #555;
+        }
+
+        td:first-child {
+            text-align: left;
+            font-weight: bold;
+        }
+
+        /* Summary */
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .summary-box {
+            background: #f7f8fc;
+            border-radius: 10px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .summary-box h3 {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 8px;
+        }
+
+        .summary-box p {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        .eligibility {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .print-btn {
+            margin-top: 20px;
+        }
+
+        /* Mobile */
+        @media (max-width: 700px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .student-details,
+            .attendance-row {
+                grid-template-columns: 1fr;
+            }
+
+            .subject-row,
+            .marks-heading {
+                grid-template-columns: 1fr;
+            }
+
+            .summary {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+            th,
+            td {
+                padding: 8px;
+            }
+        }
+
+        /* Print */
+        @media print {
+
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .input-section,
+            .print-btn {
+                display: none;
+            }
+
+            .card {
+                box-shadow: none;
+                border: none;
+            }
+
+            #reportSection {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1 class="main-title">🎓 Student Academic Report</h1>
+
+
+    <!-- ================= STUDENT DETAILS ================= -->
+
+    <div class="card input-section">
+
+        <h2>Student Details</h2>
+
+        <div class="student-details">
+
+            <div class="form-group">
+                <label>Student Name</label>
+                <input type="text" id="studentName" placeholder="Enter student name">
+            </div>
+
+            <div class="form-group">
+                <label>Register Number</label>
+                <input type="text" id="registerNumber" placeholder="Enter register number">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= SUBJECT MARKS ================= -->
+
+    <div class="card input-section">
+
+        <h2>Subject Marks</h2>
+
+        <p style="margin-bottom:20px;color:#777;">
+            External Maximum: 80 | Internal Maximum: 20
+        </p>
+
+        <div class="marks-heading">
+            <div>Subject</div>
+            <div>External</div>
+            <div>Internal</div>
+        </div>
+
+
+        <!-- Web Programming -->
+        <div class="subject-row">
+
+            <div class="subject-name">
+                Web Programming
+            </div>
+
+            <input
+                type="number"
+                id="webExternal"
+                placeholder="External / 80"
+                min="0"
+                max="80"
+            >
+
+            <input
+                type="number"
+                id="webInternal"
+                placeholder="Internal / 20"
+                min="0"
+                max="20"
+            >
+
+        </div>
+
+
+        <!-- Java -->
+        <div class="subject-row">
+
+            <div class="subject-name">
+                Java
+            </div>
+
+            <input
+                type="number"
+                id="javaExternal"
+                placeholder="External / 80"
+                min="0"
+                max="80"
+            >
+
+            <input
+                type="number"
+                id="javaInternal"
+                placeholder="Internal / 20"
+                min="0"
+                max="20"
+            >
+
+        </div>
+
+
+        <!-- DBMS -->
+        <div class="subject-row">
+
+            <div class="subject-name">
+                DBMS
+            </div>
+
+            <input
+                type="number"
+                id="dbmsExternal"
+                placeholder="External / 80"
+                min="0"
+                max="80"
+            >
+
+            <input
+                type="number"
+                id="dbmsInternal"
+                placeholder="Internal / 20"
+                min="0"
+                max="20"
+            >
+
+        </div>
+
+
+        <!-- Operating System -->
+        <div class="subject-row">
+
+            <div class="subject-name">
+                Operating System
+            </div>
+
+            <input
+                type="number"
+                id="osExternal"
+                placeholder="External / 80"
+                min="0"
+                max="80"
+            >
+
+            <input
+                type="number"
+                id="osInternal"
+                placeholder="Internal / 20"
+                min="0"
+                max="20"
+            >
+
+        </div>
+
+
+        <!-- Software Engineering -->
+        <div class="subject-row">
+
+            <div class="subject-name">
+                Software Engineering
+            </div>
+
+            <input
+                type="number"
+                id="seExternal"
+                placeholder="External / 80"
+                min="0"
+                max="80"
+            >
+
+            <input
+                type="number"
+                id="seInternal"
+                placeholder="Internal / 20"
+                min="0"
+                max="20"
+            >
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= ATTENDANCE ================= -->
+
+    <div class="card input-section">
+
+        <h2>Attendance</h2>
+
+        <div class="attendance-row">
+
+            <div class="form-group">
+
+                <label>Total Classes</label>
+
+                <input
+                    type="number"
+                    id="totalClasses"
+                    placeholder="Example: 20"
+                    min="0"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Classes Attended</label>
+
+                <input
+                    type="number"
+                    id="attendedClasses"
+                    placeholder="Example: 18"
+                    min="0"
+                >
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= GENERATE BUTTON ================= -->
+
+    <div class="button-container input-section">
+
+        <button onclick="generateReport()">
+            Generate Report
+        </button>
+
+    </div>
+
+
+    <!-- ================= ACADEMIC REPORT ================= -->
+
+    <div class="card" id="reportSection">
+
+        <h2>Academic Report</h2>
+
+        <div class="report-header">
+
+            <p>
+                <strong>Name:</strong>
+                <span id="reportName"></span>
+            </p>
+
+            <p>
+                <strong>Register No:</strong>
+                <span id="reportRegister"></span>
+            </p>
+
+        </div>
+
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Subject</th>
+                    <th>External</th>
+                    <th>Internal</th>
+                    <th>Total</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="reportTable">
+
+            </tbody>
+
+        </table>
+
+
+        <!-- Summary -->
+
+        <div class="summary">
+
+            <div class="summary-box">
+
+                <h3>Total Marks</h3>
+
+                <p id="totalMarks"></p>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <h3>Percentage</h3>
+
+                <p id="percentage"></p>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <h3>Attendance</h3>
+
+                <p id="attendancePercentage"></p>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <h3>Result</h3>
+
+                <p id="result"></p>
+
+            </div>
+
+        </div>
+
+
+        <p class="eligibility">
+
+            Exam Eligibility:
+            <span id="eligibility"></span>
+
+        </p>
+
+
+        <div class="button-container print-btn">
+
+            <button onclick="window.print()">
+                🖨 Print Report
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+function generateReport() {
+
+    // Student details
+
+    let name = document.getElementById("studentName").value;
+
+    let register =
+        document.getElementById("registerNumber").value;
+
+
+    if (name === "" || register === "") {
+
+        alert("Please enter student name and register number.");
+
+        return;
+
+    }
+
+
+    // Get marks
+
+    let subjects = [
+
+        {
+            name: "Web Programming",
+            external: Number(document.getElementById("webExternal").value),
+            internal: Number(document.getElementById("webInternal").value)
+        },
+
+        {
+            name: "Java",
+            external: Number(document.getElementById("javaExternal").value),
+            internal: Number(document.getElementById("javaInternal").value)
+        },
+
+        {
+            name: "DBMS",
+            external: Number(document.getElementById("dbmsExternal").value),
+            internal: Number(document.getElementById("dbmsInternal").value)
+        },
+
+        {
+            name: "Operating System",
+            external: Number(document.getElementById("osExternal").value),
+            internal: Number(document.getElementById("osInternal").value)
+        },
+
+        {
+            name: "Software Engineering",
+            external: Number(document.getElementById("seExternal").value),
+            internal: Number(document.getElementById("seInternal").value)
+        }
+
+    ];
+
+
+    // Calculate total
+
+    let grandTotal = 0;
+
+    let tableHTML = "";
+
+
+    subjects.forEach(function(subject) {
+
+        let total =
+            subject.external + subject.internal;
+
+        grandTotal += total;
+
+
+        tableHTML += `
+
+            <tr>
+
+                <td>${subject.name}</td>
+
+                <td>${subject.external}</td>
+
+                <td>${subject.internal}</td>
+
+                <td>${total}</td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    // Maximum marks
+
+    let maximumMarks = subjects.length * 100;
+
+
+    // Percentage
+
+    let percentage =
+        (grandTotal / maximumMarks) * 100;
+
+
+    // Attendance
+
+    let totalClasses =
+        Number(document.getElementById("totalClasses").value);
+
+    let attendedClasses =
+        Number(document.getElementById("attendedClasses").value);
+
+
+    let attendance = 0;
+
+
+    if (totalClasses > 0) {
+
+        attendance =
+            (attendedClasses / totalClasses) * 100;
+
+    }
+
+
+    // Result
+
+    let result = "PASS";
+
+
+    subjects.forEach(function(subject) {
+
+        let total =
+            subject.external + subject.internal;
+        if (total < 40) {
+            result = "FAIL";
+        }
+    });
+    // Exam eligibility
+    let eligibility =
+        attendance >= 75 ? "Eligible" : "Not Eligible";
+    // Display student details
+    document.getElementById("reportName").innerText = name;
+    document.getElementById("reportRegister").innerText = register;
+    // Display table
+    document.getElementById("reportTable").innerHTML =
+        tableHTML;
+    // Display summary
+    document.getElementById("totalMarks").innerText =
+        grandTotal + " / " + maximumMarks;
+    document.getElementById("percentage").innerText =
+        percentage.toFixed(2) + "%";
+    document.getElementById("attendancePercentage").innerText =
+        attendance.toFixed(2) + "%";
+    document.getElementById("result").innerText =
+        result;
+    document.getElementById("eligibility").innerText =
+        eligibility;
+    // Show report
+    document.getElementById("reportSection").style.display =
+        "block";
+
+    // Scroll to report
+    document.getElementById("reportSection").scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+</script>
+
+</body>
+</html>

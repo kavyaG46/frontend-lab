@@ -1,0 +1,50 @@
+header{
+    grid-area: header;
+    padding: 20px;
+    text-align: center;
+    background-color: rgb(162, 230, 230);
+}
+table{
+    margin: auto;
+    width: 75%;
+    border-collapse: collapse;
+    table-layout:auto;
+
+
+}
+th{
+    padding: 8px;
+    text-align: center;
+    font-family:monospace;
+    background:rgb(66, 28, 136);
+   border: 1px solid white ;
+   color:aliceblue;
+}
+td{
+    text-align:center ;
+    font-family :monospace;
+
+
+
+}
+.qt{
+background-color: rgb(6, 206, 179);
+    }
+.iot{
+    background-color: rgb(209, 167, 226);
+}    
+.cc{
+    background-color: rgb(176, 240, 176);
+}
+.fd{
+    background-color: rgb(186, 231, 149);
+}
+.cs{
+    background-color: plum;
+}
+.bd{
+    background-color: rgb(236, 174, 186);
+}
+.day{
+    background-color: bisque;
+}

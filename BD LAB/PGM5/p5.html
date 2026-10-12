@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background :linear-gradient( 135deg, #6f5cdb,#8c57c9);
+        }
+
+        form {
+            width: 300px;
+            margin: 40px auto;
+            padding: 20px;
+            background: rgb(235, 235, 236);
+            border-radius: 10px;
+            box-shadow: 0 0 10px #aaa;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            width: auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 8px;
+        }
+
+        .inline {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        p {
+            color: red;
+            font-size: 13px;
+            margin: 2px;
+        }
+
+        button {
+             background :linear-gradient( 135deg, #6f5cdb,#8c57c9);
+            color: white;
+            border: 0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: purple;
+        }
+    </style>
+</head>
+
+<body>
+
+<form onsubmit="return validate()">
+
+    <h2>Registration Form</h2>
+
+    <label>Name</label>
+    <input type="text" id="name" placeholder="Enter your name">
+    <p id="n"></p>
+
+    <label>Email</label>
+    <input type="email" id="email" placeholder="Enter your email">
+    <p id="e"></p>
+
+    <label>Password</label>
+    <input type="password" id="password" placeholder="Enter your password">
+    <p id="p"></p>
+
+    <!-- Gender Select -->
+    <label for="gender">Gender</label>
+    <select id="gender">
+        <option value="">Select Gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+    </select>
+
+    <p id="g"></p>
+
+    <label>Course</label>
+
+    <input type="radio" name="course" value="BCA" id="bca">
+    <label class="inline" for="bca">BCA</label>
+
+    <input type="radio" name="course" value="BBA" id="bba">
+    <label class="inline" for="bba">BBA</label>
+
+    <input type="radio" name="course" value="BCOM" id="bcom">
+    <label class="inline" for="bcom">BCOM</label>
+
+    <p id="c"></p>
+
+    <input type="checkbox" id="terms">
+    <label class="inline" for="terms">I agree to terms</label>
+
+    <p id="t"></p>
+
+    <button type="submit">Register</button>
+
+</form>
+
+<script>
+function validate() {
+
+    let valid = true;
+
+    document.getElementById("n").innerHTML = "";
+    document.getElementById("e").innerHTML = "";
+    document.getElementById("p").innerHTML = "";
+    document.getElementById("g").innerHTML = "";
+    document.getElementById("c").innerHTML = "";
+    document.getElementById("t").innerHTML = "";
+
+    // Name
+    let name = document.getElementById("name").value.trim();
+
+    if (name === "") {
+        document.getElementById("n").innerHTML =
+            "Please enter your name";
+        valid = false;
+    }
+
+    // Email
+    let email = document.getElementById("email").value.trim();
+
+    if (email === "") {
+        document.getElementById("e").innerHTML =
+            "Please enter your email";
+        valid = false;
+    }
+
+    // Password
+    let password = document.getElementById("password").value;
+
+    if (password.length < 6) {
+        document.getElementById("p").innerHTML =
+            "Password must be at least 6 characters";
+        valid = false;
+    }
+
+    // Gender
+    let gender = document.getElementById("gender").value;
+
+    if (gender === "") {
+        document.getElementById("g").innerHTML =
+            "Please select your gender";
+        valid = false;
+    }
+
+    // Course
+    let course = document.querySelector(
+        'input[name="course"]:checked'
+    );
+
+    if (!course) {
+        document.getElementById("c").innerHTML =
+            "Please select a course";
+        valid = false;
+    }
+
+    // Terms
+    let terms = document.getElementById("terms").checked;
+
+    if (!terms) {
+        document.getElementById("t").innerHTML =
+            "Please agree to the terms";
+        valid = false;
+    }
+
+    if (valid) {
+        alert("Registration successful!");
+    }
+
+    return valid;
+}
+</script>
+
+</body>
+</html>
+
+
